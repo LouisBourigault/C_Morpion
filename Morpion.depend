@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1734506970 source:c:\users\louis\codeblocs\morpion\board_view_text.c
+	"board_view.h"
+	<assert.h>
+	<stdio.h>
+
+1734506970 c:\users\louis\codeblocs\morpion\board_view.h
+	"board.h"
+
+1734506970 c:\users\louis\codeblocs\morpion\board.h
+	<stdbool.h>
+
+1734506970 source:c:\users\louis\codeblocs\morpion\game.c
+	"player_manager.h"
+	"board_view.h"
+	"board.h"
+
+1734506970 c:\users\louis\codeblocs\morpion\player_manager.h
+
+1734506970 source:c:\users\louis\codeblocs\morpion\main.c
+	"game.h"
+
+1734506970 c:\users\louis\codeblocs\morpion\game.h
+
+1734506970 source:c:\users\louis\codeblocs\morpion\player_manager_mock.c
+	"board.h"
+	<assert.h>
+	<stdio.h>
+
+1734506970 source:c:\users\louis\codeblocs\morpion\tictactoe_errors.c
+	"tictactoe_errors.h"
+	<stdio.h>
+	<stdlib.h>
+
+1734506970 c:\users\louis\codeblocs\morpion\tictactoe_errors.h
+
