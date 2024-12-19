@@ -19,7 +19,8 @@
  * @return a boolean that tells if the game is finished
  */
 
-
+// Déclaration d'un tableau vide de trois pointeurs de PieceType
+static PieceType (*boardSquares)[3];
 
 static bool isGameFinished (const PieceType boardSquares[3][3], Coordinate lastChangeX, Coordinate lastChangeY, GameResult *gameResult)
 {
@@ -70,24 +71,27 @@ void Board_init (SquareChangeCallback onSquareChange, EndOfGameCallback onEndOfG
 {
     for (int i=0; i<3; i++){
         for (int j; j<3; j++){
-
+            boardSquares[i][j]=NONE; //Init board with none case
+            onSquareChange(i,j,NONE);
         }
     }
+    onEndOfGame(false);
 }
-
-
 
 void Board_free ()
 {
-    // TODO: à compléter
+    free(boardSquares);
 }
 
 PutPieceResult Board_putPiece (Coordinate x, Coordinate y, PieceType kindOfPiece)
 {
-    // TODO: à compléter
+    assert(x>=0 && x<3);
+    assert(y>=0 && y<3);
+    assert(kindOfPiece==CROSS || kindOfPiece==CIRCLE);
+    return boardSquares[x][y]=kindOfPiece;
 }
 
 PieceType Board_getSquareContent (Coordinate x, Coordinate y)
 {
-    // TODO: à compléter
+    return boardSquares[x][y];
 }
