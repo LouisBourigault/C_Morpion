@@ -46,14 +46,8 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="main_test.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="player_manager.h" />
 		<Unit filename="player_manager_mock.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="test_CheckEndOfGame.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="test_CheckEndOfGame.h" />
