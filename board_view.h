@@ -30,6 +30,7 @@ extern void BoardView_free (void);
 /**
  * Displays the entire board (including background) at current status.
  */
+
 extern void BoardView_displayAll (void);
 
 /**
