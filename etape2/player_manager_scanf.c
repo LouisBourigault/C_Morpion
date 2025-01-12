@@ -12,8 +12,8 @@
 
 #if defined CONFIG_PLAYER_MANAGER_SCANF
 
-pieceType thisPlayer; //declare variable to know who play
-void is_valid_input(int* X, int* Y); //definition function who
+PieceType thisPlayer; //declare variable who played
+void is_valid_input(int* X, int* Y); //definition function 
 
 void PlayerManager_init (void)
 {
@@ -59,6 +59,7 @@ void PlayerManager_oneTurn (void)
 			break;
 		default:
 			printf("Error during change of player.");
+  }
 }
 
 void is_valid_input(int* x, int* y){
