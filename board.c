@@ -85,10 +85,28 @@ void Board_free ()
 
 PutPieceResult Board_putPiece (Coordinate x, Coordinate y, PieceType kindOfPiece)
 {
-    assert(x>=0 && x<3);
-    assert(y>=0 && y<3);
-    assert(kindOfPiece==CROSS || kindOfPiece==CIRCLE);
-    return boardSquares[x][y]=kindOfPiece;
+    //fait par louis 
+
+    // assert(x>=0 && x<3);
+    // assert(y>=0 && y<3);
+    // assert(kindOfPiece==CROSS || kindOfPiece==CIRCLE);
+    // return boardSquares[x][y]=kindOfPiece;
+
+    //correction fait le 20 decembre {Baptiste Joyez} => ("salut louis je viens de corriger ta fct il y avait des truc en moins") 
+
+    PutPieceResult Is_empty;
+
+	if (Board_getSquareContent(x, y) == NONE) { //check if the square is empty
+		boardSquares[y][x] = kindOfPiece; // Put the piece
+		boardOnSquareChange(x, y, kindOfPiece);//Call OnSquareChange callback
+		//Check if the game is win
+		if (isGameFinished(boardSquares, x, y, &boardGameResult))
+			boardOnEndOfGame(boardGameResult);//Call EndOfGame callback
+		Is_empty = PIECE_IN_PLACE; //save that the piece is in place
+	} else {
+		Is_empty = SQUARE_IS_NOT_EMPTY; //save that the square is occupied
+	}
+	return Is_empty; //return the value saved
 }
 
 PieceType Board_getSquareContent (Coordinate x, Coordinate y)
