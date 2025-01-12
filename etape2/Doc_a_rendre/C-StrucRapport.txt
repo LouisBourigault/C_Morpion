@@ -1,0 +1,25 @@
+Structure du rapport logiciel projet BIO
+----------------------------------------
+(la structure proposée est indicative, vous pouvez tout à fait structurer différemment, du moment que ce soit logique et complet)
+
+I - rappel du contexte et du cahier des charges
+II - environnement logiciel, librairies utilisées et contraintes
+III - description fonctionnelle et schématique de l'architecture logicielle (flux de données, flux de commandes, interface utilisateur, ...)
+IV - choix effectués
+V - description détaillée de l'implémentation
+VI - difficultés rencontrées, ce qu'il manque, pistes à explorer, conclusion
+VII - bibliographie et annexes
+
+il devra y avoir obligatoirement :
+- une page de titre comprenant vos noms, la date, la mention de l'ESEO, le cursus et le titre du projet
+- un sommaire détaillé du rapport (de préférence après la page de titre)
+
+Pensez aussi à ajouter un en-tête ou bas de page automatique, reprenant vos noms, le titre résumé et la pagination
+
+Enfin, le tout sera livré sous forme d'un fichier PDF dont le nom suit le format suivant :
+
+	2023_Morpion_<nom-n°1>_<nom-n°2>_rapport.pdf
+
+Rappel : les sources seront livrés nettoyés dans un fichier archive au format similaire :
+
+	2023_Morpion_<nom-n°1>_<nom-n°2>_sources.zip
