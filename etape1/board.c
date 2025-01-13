@@ -1,7 +1,19 @@
 #include "board.h"
 #include <assert.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <assert.h>
 
+
+//define the size of the board
+#define LIGNES 3
+#define COLONNES 3
+
+PieceType boardSquares[LIGNES][COLONNES]; //declare the board
+SquareChangeCallback boardOnSquareChange; //declare OnSquareChange callback
+EndOfGameCallback boardOnEndOfGame;//declare EndOfGame Callback
+GameResult boardGameResult; //declare the gameresult variable
 /**
  * Check if the game has to be ended. Only alignment from the last
  * modified square are checked.
@@ -20,61 +32,71 @@
  */
 
 // Déclaration d'un tableau vide de trois pointeurs de PieceType
-static PieceType (*boardSquares)[3];
 
-static bool isGameFinished (const PieceType boardSquares[3][3], Coordinate lastChangeX, Coordinate lastChangeY, GameResult *gameResult)
+static bool isGameFinished (const PieceType boardSquares[3][3],
+Coordinate lastChangeX, 
+Coordinate lastChangeY, 
+GameResult *gameResult)
 {
-    assert(lastChangeX >= 0 && lastChangeX < 3);
-    assert(lastChangeY >= 0 && lastChangeY < 3);
-    assert(gameResult != NULL);
-    PieceType piece = boardSquares[lastChangeX][lastChangeY];
-    // Check rows
-    if (boardSquares[0][lastChangeY] == piece && boardSquares[1][lastChangeY] == piece && boardSquares[2][lastChangeY] == piece) {
-        *gameResult = (piece == CROSS) ? CROSS_WINS : CIRCLE_WINS;
-        return true;
-    }
-    // Check columns
-    if (boardSquares[lastChangeX][0] == piece && boardSquares[lastChangeX][1] == piece && boardSquares[lastChangeX][2] == piece) {
-        *gameResult = (piece == CROSS) ? CROSS_WINS : CIRCLE_WINS;
-        return true;
-    }
-    // Check diagonal up left to down right
-    if (lastChangeX == lastChangeY &&
-        boardSquares[0][0] == piece && boardSquares[1][1] == piece && boardSquares[2][2] == piece) {
-        *gameResult = (piece == CROSS) ? CROSS_WINS : CIRCLE_WINS;
-        return true;
-    }
-    // Check diagonal down left to up right
-    if (lastChangeX + lastChangeY == 2 &&
-        boardSquares[0][2] == piece && boardSquares[1][1] == piece && boardSquares[2][0] == piece) {
-        *gameResult = (piece == CROSS) ? CROSS_WINS : CIRCLE_WINS;
-        return true;
-    }
-    // Check for draw (board full)
-    bool isDraw = true;
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            if (boardSquares[i][j] == NONE) {
-                isDraw = false;
-                break;
-            }
-        }
-    }
-    if (isDraw) {
-        *gameResult = DRAW;
-        return true;
-    }
-    return false;
+    //check if the board is full
+	bool stop = true;
+	for (int i = 0; (i < LIGNES) && stop; i++) {
+		for (int j = 0; (j < COLONNES) && stop; j++) {
+			if (boardSquares[i][j] == NONE) {
+				stop = false;
+			}
+		}
+	}
+	if (stop) { //if the board is full return DRAW
+		*gameResult = DRAW;
+		return true;
+	}
+
+	// Check if the last piece played win the game
+	//Check for columns
+	if (boardSquares[lastChangeY][0] == boardSquares[lastChangeY][1] &&
+	            boardSquares[lastChangeY][1] == boardSquares[lastChangeY][2] &&
+	            boardSquares[lastChangeY][2] != NONE ||
+	    //Check for row
+	    boardSquares[0][lastChangeX] == boardSquares[1][lastChangeX] &&
+	            boardSquares[1][lastChangeX] == boardSquares[2][lastChangeX] &&
+	            boardSquares[2][lastChangeX] != NONE ||
+	    //Check for diagonal (top left to bottom right)
+	    lastChangeX == lastChangeY &&
+	            boardSquares[0][0] == boardSquares[1][1] &&
+	            boardSquares[1][1] == boardSquares[2][2] &&
+	            boardSquares[2][2] != NONE ||
+	    //Check for the other diagonal (bottom left to top right)
+	    lastChangeX + lastChangeY == 2 &&
+	            boardSquares[0][2] == boardSquares[1][1] &&
+	            boardSquares[1][1] == boardSquares[2][0] &&
+	            boardSquares[2][0] != NONE) {
+		//Check who's the winner and change *gameResult
+		switch (boardSquares[lastChangeY][lastChangeX]) {
+			case CROSS:
+				*gameResult = CROSS_WINS;
+				break;
+			case CIRCLE:
+				*gameResult = CIRCLE_WINS;
+				break;
+			default:
+				*gameResult = DRAW;
+				break;
+		}
+		return true;
+	} else {
+		*gameResult = DRAW;//return Draw if the game is not ended
+		return false;
+	}
 }
 
 void Board_init (SquareChangeCallback onSquareChange, EndOfGameCallback onEndOfGame)
 {
-    for (int i=0; i<3; i++){
-        for (int j; j<3; j++){
-            boardSquares[i][j]=NONE; //Init board with none case
-            onSquareChange(i,j,NONE);
-        }
-    }
+    for (int i = 0; i < LIGNES; ++i) {
+		for (int j = 0; j < COLONNES; ++j) { boardSquares[i][j] = NONE; }
+	}                                    // initialize all square to NONE
+	boardOnSquareChange = onSquareChange;//init the OnSquareChange callback
+	boardOnEndOfGame = onEndOfGame;      // init the EndOfGame callback
     onEndOfGame(false);
 }
 
